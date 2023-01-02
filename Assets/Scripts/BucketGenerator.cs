@@ -24,6 +24,10 @@ public class BucketGenerator : MonoBehaviour
     void Start()
     {
         _generatedBuckets = new GameObject[0];
+        if (StatusDisplay == null)
+            StatusDisplay = FindObjectOfType<BucketCountDisplay>().GetComponent<TextMeshProUGUI>();
+        if (StartingDigitDisplay == null)
+            StartingDigitDisplay = FindObjectOfType<StartingDigitDisplay>().GetComponent<TextMeshProUGUI>();
         FlipStartingNum();
     }
     

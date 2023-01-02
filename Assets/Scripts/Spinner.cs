@@ -12,4 +12,9 @@ public class Spinner : MonoBehaviour
         direction = CounterClockwise ? 1.0f : -1.0f;
         gameObject.transform.Rotate(Vector3.forward * Speed * direction * Time.deltaTime);
     }
+
+    public void Reverse()
+    {
+        CounterClockwise = !CounterClockwise;
+    }
 }

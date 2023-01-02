@@ -13,6 +13,12 @@ public class BallDropper : MonoBehaviour
     private bool _ballDropped;
     private int _ballForceDirection = 1;
 
+    private void Start()
+    {
+        if (BallDropStatusText == null)
+            BallDropStatusText = FindObjectOfType<BallDropStatusDisplay>().GetComponent<TextMeshProUGUI>();
+    }
+
     void Update()
     {
         ProcessToggleEnable();
@@ -60,16 +66,27 @@ public class BallDropper : MonoBehaviour
         }
     }
 
-    private void ProcessUnstickMe()
+    public void ProcessUnstickMe()
     {
         if (!_ballDropped)
             return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var ballRigidbody = _ball.GetComponent<Rigidbody2D>();
-            ballRigidbody.AddForce(new Vector2(5 * _ballForceDirection, 5), ForceMode2D.Impulse);
+            BumpBall(new Vector2(5 * _ballForceDirection, 5));
             _ballForceDirection *= -1;
         }
+    }
+
+    public void BumpBall(Vector2? direction = null)
+    {
+        if(direction == null)
+            direction = new Vector2(Random.Range(-15.0f, 15.0f), Random.Range(-15.0f, 15.0f));
+
+        if (!_ballDropped)
+            return;
+
+        var ballRigidbody = _ball.GetComponent<Rigidbody2D>();
+        ballRigidbody.AddForce(direction.Value, ForceMode2D.Impulse);
     }
 }
