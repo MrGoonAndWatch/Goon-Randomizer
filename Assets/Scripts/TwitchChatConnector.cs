@@ -83,6 +83,7 @@ public class TwitchChatConnector : MonoBehaviour
             var bytesRead = _stream.Read(data, 0, data.Length);
             var message = Encoding.UTF8.GetString(data, 0, bytesRead);
 
+            DebugLogger.LogMessage($"Got raw twitch message '{message}'");
             if (!message.Contains("PRIVMSG")) return;
 
             var trimmedMessage = message.Substring(message.LastIndexOf(':') + 1);
