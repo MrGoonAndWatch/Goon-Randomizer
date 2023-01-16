@@ -1,3 +1,4 @@
+using System;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
@@ -37,10 +38,25 @@ public class TwitchChatConnector : MonoBehaviour
 
     public void Init()
     {
+        try
+        {
+            Initialize();
+        }
+        catch (Exception e)
+        {
+            DebugLogger.LogMessage($"Failed to initialize TwitchChatConnector due to exception: {e}");
+        }
+    }
+
+    private void Initialize()
+    {
+        DebugLogger.LogMessage("Initializing TwitchChatConnector");
         var saveManager = FindObjectOfType<SaveManager>();
         if (saveManager == null) return;
+        DebugLogger.LogMessage("Found SaveManager!");
         var loginInfo = saveManager.LoadCredentials();
         if (loginInfo == null) return;
+        DebugLogger.LogMessage("Found valid credentials file!");
 
         _tcpClient = new TcpClient("irc.chat.twitch.tv", 6667);
         _stream = _tcpClient.GetStream();
@@ -52,6 +68,8 @@ public class TwitchChatConnector : MonoBehaviour
 
         var channelBytes = Encoding.UTF8.GetBytes("JOIN #" + loginInfo.Channel + "\r\n");
         _stream.Write(channelBytes, 0, channelBytes.Length);
+
+        DebugLogger.LogMessage("Finished initializing TwitchChatConnector!");
 
         _initialized = true;
         TwitchCommandsUi.SetActive(true);
@@ -69,44 +87,11 @@ public class TwitchChatConnector : MonoBehaviour
 
             var trimmedMessage = message.Substring(message.LastIndexOf(':') + 1);
 
+            DebugLogger.LogMessage($"Got twitch message '{trimmedMessage}'");
             if (!trimmedMessage.StartsWith(TwitchChatCommands.CommandPrefix)) return;
 
             var rawCommand = trimmedMessage.Substring(TwitchChatCommands.CommandPrefix.Length);
-            HandleCommand(rawCommand);
-        }
-    }
-
-    // TODO: This should really be a separate behavior that we call with the command.
-    private static void HandleCommand(string rawCommand)
-    {
-        var commandSection = rawCommand.Replace("\r", "").Replace("\n", "").Replace("\t", "").Split(' ')[0].ToLower();
-        TwitchChatCommand command;
-        if (!TwitchChatCommand.TryParse(commandSection, out command)) return;
-
-        switch (command)
-        {
-            case TwitchChatCommand.bump:
-                BumpBall();
-                break;
-            case TwitchChatCommand.reverse:
-                ReverseSpinners();
-                break;
-        }
-    }
-
-    private static void BumpBall()
-    {
-        var ballDropper = FindObjectOfType<BallDropper>();
-        if(ballDropper != null)
-            ballDropper.BumpBall();
-    }
-
-    private static void ReverseSpinners()
-    {
-        var spinners = FindObjectsOfType<Spinner>();
-        for (var i = 0; i < spinners.Length; i++)
-        {
-            spinners[i].Reverse();
+            TwitchCommandHandler.HandleCommand(rawCommand);
         }
     }
 }

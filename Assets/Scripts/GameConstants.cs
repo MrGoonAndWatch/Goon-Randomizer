@@ -13,5 +13,10 @@ public static class TwitchChatCommands
 public enum TwitchChatCommand
 {
     bump,
-    reverse
+    reverse,
+    fast,
+    slow,
+    moon,
+    stop,
+    heavy,
 }

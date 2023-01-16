@@ -32,7 +32,7 @@ public class SaveManager : MonoBehaviour
         var filePath = Path.Combine(SaveDir, TwitchIntegrationFilename);
         if (!Directory.Exists(SaveDir) || !File.Exists(filePath))
         {
-            Debug.Log($"Couldn't load Twitch integration credentials, file doesn't exist!");
+            DebugLogger.LogMessage("Couldn't load Twitch integration credentials, file doesn't exist!");
             return null;
         }
 
@@ -44,7 +44,7 @@ public class SaveManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed to parse Twitch Integration Login info due to exception: \r\n{e}");
+            DebugLogger.LogMessage($"Failed to parse Twitch Integration Login info due to exception: \r\n{e}");
             return null;
         }
     }

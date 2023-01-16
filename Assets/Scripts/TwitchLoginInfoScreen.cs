@@ -1,30 +1,41 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
 public class TwitchLoginInfoScreen : MonoBehaviour
 {
-    private bool _visible = false;
+    private bool _loginVisible = false;
+    private bool _debugVisible = false;
 
     [SerializeField]
     private Canvas LoginCanvas;
     [SerializeField]
     private Canvas InstructionsCanvas;
     [SerializeField]
+    private Canvas DebugLogCanvas;
+    [SerializeField]
     private TMP_InputField UsernameInput;
     [SerializeField]
     private TMP_InputField TwitchChannelInput;
     [SerializeField]
     private TMP_InputField OauthTokenInput;
+    [SerializeField]
+    private TMP_Text DebugLogInput;
 
     void Start()
     {
         LoginCanvas.gameObject.SetActive(false);
+        DebugLogCanvas.gameObject.SetActive(false);
     }
     
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.F1))
-            ToggleScreen();
+            ToggleLoginScreen();
+        if (Input.GetKeyUp(KeyCode.F2))
+            ToggleDebugScreen();
     }
 
     public void Connect()
@@ -44,13 +55,39 @@ public class TwitchLoginInfoScreen : MonoBehaviour
         saveManager.SaveCredentials(loginInfo);
         var connector = FindObjectOfType<TwitchChatConnector>();
         connector.Init();
-        ToggleScreen();
+        ToggleLoginScreen();
     }
 
-    private void ToggleScreen()
+    private void ToggleLoginScreen()
     {
-        _visible = !_visible;
-        LoginCanvas.gameObject.SetActive(_visible);
-        InstructionsCanvas.gameObject.SetActive(!_visible);
+        _loginVisible = !_loginVisible;
+        _debugVisible = false;
+        LoginCanvas.gameObject.SetActive(_loginVisible);
+        InstructionsCanvas.gameObject.SetActive(!_loginVisible);
+        DebugLogCanvas.gameObject.SetActive(false);
+    }
+
+    private void ToggleDebugScreen()
+    {
+        RefreshDebugLogs();
+        _debugVisible = !_debugVisible;
+        _loginVisible = false;
+        DebugLogCanvas.gameObject.SetActive(_debugVisible);
+        InstructionsCanvas.gameObject.SetActive(!_debugVisible);
+        LoginCanvas.gameObject.SetActive(false);
+    }
+
+    private const int DebugLinesThatFitOnScreen = 16;
+    private void RefreshDebugLogs()
+    {
+        var logs = DebugLogger.GetLogs();
+        var logsOnScreen = logs.Skip(logs.Count - DebugLinesThatFitOnScreen);
+        var logScreen = new StringBuilder();
+        foreach (var logMessage in logsOnScreen)
+        {
+            logScreen.AppendLine(logMessage.Replace("\r", "").Replace("\n", ""));
+        }
+
+        DebugLogInput.text = logScreen.ToString();
     }
 }

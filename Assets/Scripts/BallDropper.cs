@@ -89,4 +89,12 @@ public class BallDropper : MonoBehaviour
         var ballRigidbody = _ball.GetComponent<Rigidbody2D>();
         ballRigidbody.AddForce(direction.Value, ForceMode2D.Impulse);
     }
+
+    public void SetGravity(float newGravity)
+    {
+        if (!_ballDropped)
+            return;
+        var ballRigidBody = _ball.GetComponent<Rigidbody2D>();
+        ballRigidBody.gravityScale = newGravity;
+    }
 }

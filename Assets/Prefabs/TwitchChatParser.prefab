@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3698672908341734871}
   - component: {fileID: 3698672908341734870}
+  - component: {fileID: 6510320028016419595}
+  - component: {fileID: 551063874667743419}
   m_Layer: 0
   m_Name: TwitchChatParser
   m_TagString: Untagged
@@ -43,3 +45,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7daf72c0a286d438d51741c7d62a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6510320028016419595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698672908341734869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b58d1fbd3099d4489edfebfcfd6c18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &551063874667743419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698672908341734869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6564d6c6cced20841a78ed43d1f199bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedChangeDuration: 5
+  _gravityChangeDuration: 5
