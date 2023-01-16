@@ -21,7 +21,7 @@ public class SoundManager : MonoBehaviour
         _instance = this;
     }
 
-    public static void PlayGroundSound()
+    public static void PlayBallHitGroundSound()
     {
         if (_instance == null)
         {

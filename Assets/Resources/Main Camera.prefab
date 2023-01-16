@@ -131,5 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2b2fbd20328bf4a97598c039d1db2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ballHitsFloorSoundDelay: 1.5
   DroppingBall: 0
   BallDropStatusText: {fileID: 0}

@@ -4,6 +4,10 @@ using UnityEngine.UIElements;
 
 public class BallDropper : MonoBehaviour
 {
+    [Tooltip("The time (in seconds) to wait before playing the sound again since the last time the ball hit the floor.")]
+    [SerializeField]
+    private float _ballHitsFloorSoundDelay = 1.0f;
+
     public bool DroppingBall;
     public TextMeshProUGUI BallDropStatusText;
 
@@ -62,6 +66,8 @@ public class BallDropper : MonoBehaviour
             ballPosition.z = 0;
             var ballResource = Resources.Load(BallPrefabPath);
             _ball = Instantiate(ballResource, ballPosition, Quaternion.identity) as GameObject;
+            var playSoundScript = _ball.AddComponent<PlaySoundWhenBallHitsGround>();
+            playSoundScript.SoundCooldownTime = _ballHitsFloorSoundDelay;
             _ballDropped = true;
         }
     }
