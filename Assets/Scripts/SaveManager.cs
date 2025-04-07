@@ -32,6 +32,7 @@ public class SaveManager : MonoBehaviour
         var filePath = Path.Combine(SaveDir, TwitchIntegrationFilename);
         if (!Directory.Exists(SaveDir) || !File.Exists(filePath))
         {
+            Debug.Log($"{filePath} does not exist!");
             DebugLogger.LogMessage("Couldn't load Twitch integration credentials, file doesn't exist!");
             return null;
         }
