@@ -61,7 +61,7 @@ public class TwitchChatConnector : MonoBehaviour
         _tcpClient = new TcpClient("irc.chat.twitch.tv", 6667);
         _stream = _tcpClient.GetStream();
 
-        var authBytes = Encoding.UTF8.GetBytes("PASS " + loginInfo.OauthToken + "\r\n");
+        var authBytes = Encoding.UTF8.GetBytes($"PASS oauth:{loginInfo.OauthToken}\r\n");
         _stream.Write(authBytes, 0, authBytes.Length);
         authBytes = Encoding.UTF8.GetBytes("NICK " + loginInfo.Username + "\r\n");
         _stream.Write(authBytes, 0, authBytes.Length);
