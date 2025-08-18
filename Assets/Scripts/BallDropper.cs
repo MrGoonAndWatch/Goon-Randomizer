@@ -20,7 +20,7 @@ public class BallDropper : MonoBehaviour
     private void Start()
     {
         if (BallDropStatusText == null)
-            BallDropStatusText = FindObjectOfType<BallDropStatusDisplay>().GetComponent<TextMeshProUGUI>();
+            BallDropStatusText = FindFirstObjectByType<BallDropStatusDisplay>().GetComponent<TextMeshProUGUI>();
     }
 
     void Update()

@@ -28,13 +28,13 @@ public class TwitchCommandHandler : MonoBehaviour
         }
 
         _instance = this;
-        _spinners = FindObjectsOfType<Spinner>();
+        _spinners = FindObjectsByType<Spinner>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         SceneManager.sceneLoaded += SetSceneReferences;
     }
 
     private void SetSceneReferences(Scene scene, LoadSceneMode mode)
     {
-        _spinners = FindObjectsOfType<Spinner>();
+        _spinners = FindObjectsByType<Spinner>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     }
     
     private void Update()
@@ -116,7 +116,7 @@ public class TwitchCommandHandler : MonoBehaviour
 
     private static BallDropper GetBall()
     {
-        return FindObjectOfType<BallDropper>();
+        return FindFirstObjectByType<BallDropper>();
     }
 
     private static void BumpBall()

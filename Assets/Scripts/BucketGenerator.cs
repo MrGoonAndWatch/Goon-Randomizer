@@ -30,9 +30,9 @@ public class BucketGenerator : MonoBehaviour
         _imgFilePaths = new List<string>();
         _generatedBuckets = new GameObject[0];
         if (StatusDisplay == null)
-            StatusDisplay = FindObjectOfType<BucketCountDisplay>().GetComponent<TextMeshProUGUI>();
+            StatusDisplay = FindFirstObjectByType<BucketCountDisplay>().GetComponent<TextMeshProUGUI>();
         if (StartingDigitDisplay == null)
-            StartingDigitDisplay = FindObjectOfType<StartingDigitDisplay>().GetComponent<TextMeshProUGUI>();
+            StartingDigitDisplay = FindFirstObjectByType<StartingDigitDisplay>().GetComponent<TextMeshProUGUI>();
         FlipStartingNum();
     }
     
@@ -55,15 +55,15 @@ public class BucketGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
             FlipStartingNum();
-
+        
         if(updated)
-            StatusDisplay.text = NumBuckets + " Buckets";
+            StatusDisplay.text = $"{NumBuckets} Buckets";
     }
 
     private void FlipStartingNum()
     {
         _startingDigit = (_startingDigit + 1) % 2;
-        StartingDigitDisplay.text = "Start at " + _startingDigit;
+        StartingDigitDisplay.text = $"Start at {_startingDigit}";
     }
 
     private void GenerateBuckets()

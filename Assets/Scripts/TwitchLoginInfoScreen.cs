@@ -45,7 +45,7 @@ public class TwitchLoginInfoScreen : MonoBehaviour
         var oauth = OauthTokenInput.text;
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(twitchChannel) || string.IsNullOrEmpty(oauth)) return;
 
-        var saveManager = FindObjectOfType<SaveManager>();
+        var saveManager = FindFirstObjectByType<SaveManager>();
         var loginInfo = new TwitchIntegrationLoginInfo
         {
             Username = username,
@@ -53,7 +53,7 @@ public class TwitchLoginInfoScreen : MonoBehaviour
             OauthToken = oauth
         };
         saveManager.SaveCredentials(loginInfo);
-        var connector = FindObjectOfType<TwitchChatConnector>();
+        var connector = FindFirstObjectByType<TwitchChatConnector>();
         connector.Init();
         ToggleLoginScreen();
     }

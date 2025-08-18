@@ -23,7 +23,7 @@ public class TwitchChatConnector : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         _instance = this;
 
-        TwitchCommandsUi = FindObjectOfType<TwitchCommandsDisplay>().gameObject;
+        TwitchCommandsUi = FindFirstObjectByType<TwitchCommandsDisplay>().gameObject;
         TwitchCommandsUi.SetActive(false);
 
         Init();
@@ -51,7 +51,7 @@ public class TwitchChatConnector : MonoBehaviour
     private void Initialize()
     {
         DebugLogger.LogMessage("Initializing TwitchChatConnector");
-        var saveManager = FindObjectOfType<SaveManager>();
+        var saveManager = FindFirstObjectByType<SaveManager>();
         if (saveManager == null) return;
         DebugLogger.LogMessage("Found SaveManager!");
         var loginInfo = saveManager.LoadCredentials();
@@ -63,10 +63,10 @@ public class TwitchChatConnector : MonoBehaviour
 
         var authBytes = Encoding.UTF8.GetBytes($"PASS oauth:{loginInfo.OauthToken}\r\n");
         _stream.Write(authBytes, 0, authBytes.Length);
-        authBytes = Encoding.UTF8.GetBytes("NICK " + loginInfo.Username + "\r\n");
+        authBytes = Encoding.UTF8.GetBytes($"NICK {loginInfo.Username}\r\n");
         _stream.Write(authBytes, 0, authBytes.Length);
 
-        var channelBytes = Encoding.UTF8.GetBytes("JOIN #" + loginInfo.Channel + "\r\n");
+        var channelBytes = Encoding.UTF8.GetBytes($"JOIN #{loginInfo.Channel}\r\n");
         _stream.Write(channelBytes, 0, channelBytes.Length);
 
         DebugLogger.LogMessage("Finished initializing TwitchChatConnector!");
